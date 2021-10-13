@@ -6,6 +6,24 @@
 # 
 #-------------------------------------------
 
+#Mutable struct that contains info for each player
+mutable struct player
+   firstN::String
+   lastN::String
+   plate::Float64
+   atbats::Float64
+   singles::Float64
+   double::Float64
+   triples::Float64
+   homeruns::Float64
+   walks::Float64
+   hitbypitch::Float64
+   average::Float64
+   slug::Float64
+   obp::Float64
+   ops::Float64
+end
+
 #This part of the code opens and reads the file
 print("\nEnter filename: ")
 userfile = nothing

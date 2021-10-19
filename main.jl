@@ -5,7 +5,9 @@
 # Authors: Janilou Sy, Cole Zandbergen
 # 
 #-------------------------------------------
-
+#Note: October 19, 2021 So I already made the average, slug, onbase and OPS function. Rounded up too 3 decimal places.
+#I have also put the new stats in each players' 
+#So what we have to do next is SORT and print 
 import Statistics
 
 #Mutable struct that contains info for each player
@@ -26,8 +28,28 @@ mutable struct Player
    ops::Float64
 end
 
+#Function that calculates player's average
+function calcAverage(p)
+    return (p.singles + p.doubles + p.triples + p.homeruns)/p.atbats
+end
+
+#Function that calculates the player's slugging percentage
+function calcSlug(p)
+    return ((p.singles) + (2 * p.doubles) + (3 * p.triples) + (4 * p.homeruns))/p.atbats
+end
+
+#Function that calculates the player's on-base percentage
+function calcOnbase(p)
+    return (p.singles +p.doubles + p.triples + p.homeruns + p.walks + p.hitbypitch)/p.plate
+end
+
+#Function that calculates the player's OPS
+function calcOPS(p)
+    return (calcOnbase(p) + calcSlug(p))
+end
+
 function printPlayer(p) #function created for testing purposes
-    println(p.firstN, " ", p.lastN)
+    println(p.firstN, " ", p.lastN, "")
 end
 
 #This part of the code opens and reads the file
@@ -53,6 +75,14 @@ for line in lines
     # NOTE: I fixed the issue we had earlier by switching from the append! to the push! method -- no idea what the difference is based on reading the julia documentation
 end
 
-for p in players #this is just to test that the structs were created and that their fields hold information
-    printPlayer(p)
+#Loop that calculates average, slugging, on-base, and OPS
+for p in players          
+    p.average = round(calcAverage(p); digits = 3)
+    p.slug = round(calcSlug(p); digits = 3)
+    p.obp = round(calcOnbase(p); digits = 3)
+    p.ops = round(calcOPS(p); digits = 3)
+
+    println(p.firstN, " ", p.average, " ", p.slug, " ", p.obp, " ", p.ops)  #Prints all calcu info for check
 end
+
+

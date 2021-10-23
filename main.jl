@@ -5,10 +5,11 @@
 # Authors: Janilou Sy, Cole Zandbergen
 # 
 #-------------------------------------------
-#Note: October 19, 2021 So I already made the average, slug, onbase and OPS function. Rounded up too 3 decimal places.
-#I have also put the new stats in each players' 
-#So what we have to do next is SORT and print 
+#Note: October 22, 2021 So I already made the average, slug, onbase and OPS function. Rounded up too 3 decimal places.
+#And formatted the print 
+#So all we need to do is SORT it by OPS 
 import Statistics
+using Printf
 
 #Mutable struct that contains info for each player
 mutable struct Player
@@ -48,10 +49,6 @@ function calcOPS(p)
     return (calcOnbase(p) + calcSlug(p))
 end
 
-function printPlayer(p) #function created for testing purposes
-    println(p.firstN, " ", p.lastN, "")
-end
-
 #This part of the code opens and reads the file
 print("\nEnter filename: ")
 global userfile = nothing
@@ -71,18 +68,29 @@ players = [] #players will be used to hold each player object after it has been 
 for line in lines
     data = split(line, " ") #split the line by spaces, and store each separate word as an element in the list 'data'
     push!(players, Player(data[1], data[2], parse(Float64, data[3]), parse(Float64, data[4]), parse(Float64, data[5]), parse(Float64, data[6]), parse(Float64, data[7]), parse(Float64, data[8]), parse(Float64, data[9]), parse(Float64, data[10]), 0, 0, 0, 0))
-    # the above line creates a new instance of the player struct with its values loaded from the data list
-    # NOTE: I fixed the issue we had earlier by switching from the append! to the push! method -- no idea what the difference is based on reading the julia documentation
+  
 end
+#Sorts the players by OPS
+#
+# 
+#
+#
+#
 
 #Loop that calculates average, slugging, on-base, and OPS
 for p in players          
     p.average = round(calcAverage(p); digits = 3)
     p.slug = round(calcSlug(p); digits = 3)
     p.obp = round(calcOnbase(p); digits = 3)
-    p.ops = round(calcOPS(p); digits = 3)
-
-    println(p.firstN, " ", p.average, " ", p.slug, " ", p.obp, " ", p.ops)  #Prints all calcu info for check
+    p.ops = round(calcOPS(p); digits = 3)    
 end
 
-
+#Prints all player info
+println("  ", repeat("-", 50))
+@printf("  |  BASEBALL TEAM REPORT - TOTAL PLAYERS FOUND: %d |\n", length(players))
+println("  ", repeat("-", 50))
+@printf("%15s %-15s|  %15s %15s %15s %13s\n", "PLAYER"," NAME", "AVERAGE", "SLUGGING", "ONBASE", "OPS")
+println("        ", repeat("-", 87))
+for p in players
+    @printf("%15s %-15s| %15.3f %15.3f %15.3f %15.3f  \n", p.firstN, p.lastN, p.average, p.slug, p.obp, p.ops)
+end

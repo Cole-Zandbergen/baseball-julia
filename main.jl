@@ -5,9 +5,7 @@
 # Authors: Janilou Sy, Cole Zandbergen
 # 
 #-------------------------------------------
-#Note: October 22, 2021 So I already made the average, slug, onbase and OPS function. Rounded up too 3 decimal places.
-#And formatted the print 
-#So all we need to do is SORT it by OPS 
+ 
 import Statistics
 using Printf
 
@@ -67,8 +65,10 @@ lines = readlines(userfile) #lines will hold a list of each line in the file
 players = [] #players will be used to hold each player object after it has been initialized
 for line in lines
     data = split(line, " ") #split the line by spaces, and store each separate word as an element in the list 'data'
-    push!(players, Player(data[1], data[2], parse(Float64, data[3]), parse(Float64, data[4]), parse(Float64, data[5]), parse(Float64, data[6]), parse(Float64, data[7]), parse(Float64, data[8]), parse(Float64, data[9]), parse(Float64, data[10]), 0, 0, 0, 0))
-  
+    push!(players, Player(data[1], data[2], parse(Float64, data[3]), 
+            parse(Float64, data[4]), parse(Float64, data[5]), parse(Float64, data[6]), 
+            parse(Float64, data[7]), parse(Float64, data[8]), parse(Float64, data[9]), 
+            parse(Float64, data[10]), 0, 0, 0, 0))
 end
 
 #Loop that calculates average, slugging, on-base, and OPS
@@ -80,7 +80,7 @@ for p in players
 end
 
 #this line will sort the player list by their ops values
-players = sort(players, by = player -> player.ops, rev = true)
+players = sort(players, by = player -> player.ops, rev = true) #rev=true reverses the sort order from ascending to descending
 
 #Prints all player info
 println("  ", repeat("-", 50))

@@ -3,9 +3,8 @@
 # CS424-01 Fall 2021
 # Professor: Beth Allen
 # Authors: Janilou Sy, Cole Zandbergen
-# 
 #-------------------------------------------
- 
+
 import Statistics
 using Printf
 
@@ -47,6 +46,19 @@ function calcOPS(p)
     return (calcOnbase(p) + calcSlug(p))
 end
 
+#function to print out all player data
+#takes in a list of players as a parameter
+function printPlayers(players)
+    println("  ", repeat("-", 50))
+    @printf("  |  BASEBALL TEAM REPORT - TOTAL PLAYERS FOUND: %d |\n", length(players))
+    println("  ", repeat("-", 50))
+    @printf("%15s %-15s|  %15s %15s %15s %13s\n", "PLAYER"," NAME", "AVERAGE", "SLUGGING", "ONBASE", "OPS")
+    println("        ", repeat("-", 87))
+    for p in players
+        @printf("%15s %-15s| %15.3f %15.3f %15.3f %15.3f  \n", p.firstN, p.lastN, p.average, p.slug, p.obp, p.ops)
+    end
+end
+
 #This part of the code opens and reads the file
 print("\nEnter filename: ")
 global userfile = nothing
@@ -82,12 +94,11 @@ end
 #this line will sort the player list by their ops values
 players = sort(players, by = player -> player.ops, rev = true) #rev=true reverses the sort order from ascending to descending
 
-#Prints all player info
-println("  ", repeat("-", 50))
-@printf("  |  BASEBALL TEAM REPORT - TOTAL PLAYERS FOUND: %d |\n", length(players))
-println("  ", repeat("-", 50))
-@printf("%15s %-15s|  %15s %15s %15s %13s\n", "PLAYER"," NAME", "AVERAGE", "SLUGGING", "ONBASE", "OPS")
-println("        ", repeat("-", 87))
-for p in players
-    @printf("%15s %-15s| %15.3f %15.3f %15.3f %15.3f  \n", p.firstN, p.lastN, p.average, p.slug, p.obp, p.ops)
-end
+#next, print the list using the printplayers function
+println("\n***** Player report sorted by OPS: *****\n\n\n")
+printPlayers(players)
+
+#sort and print the list again:
+players = sort(players, by = player -> player.average, rev = true)
+println("\n\n\n***** Player report sorted by batting average: *****\n\n\n")
+printPlayers(players)

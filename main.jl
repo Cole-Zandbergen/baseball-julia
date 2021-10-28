@@ -70,12 +70,6 @@ for line in lines
     push!(players, Player(data[1], data[2], parse(Float64, data[3]), parse(Float64, data[4]), parse(Float64, data[5]), parse(Float64, data[6]), parse(Float64, data[7]), parse(Float64, data[8]), parse(Float64, data[9]), parse(Float64, data[10]), 0, 0, 0, 0))
   
 end
-#Sorts the players by OPS
-#
-# 
-#
-#
-#
 
 #Loop that calculates average, slugging, on-base, and OPS
 for p in players          
@@ -84,6 +78,9 @@ for p in players
     p.obp = round(calcOnbase(p); digits = 3)
     p.ops = round(calcOPS(p); digits = 3)    
 end
+
+#this line will sort the player list by their ops values
+players = sort(players, by = player -> player.ops, rev = true)
 
 #Prints all player info
 println("  ", repeat("-", 50))
